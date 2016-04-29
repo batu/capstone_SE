@@ -1,9 +1,17 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 
 public class PlayerMovement : MonoBehaviour {
     public float speed = 6f;            // The speed that the player will move at.
 
+    public float sprintSpeed = 4f;
+    public float maxStamina = 100f;
+    public float regenRate = -50f;
+
+    float stamina;
+    bool canSprint = true;
+    bool inRecovery = false;
 
     Vector3 movement;                   // The vector to store the direction of the player's movement.
     Rigidbody playerRigidbody;          // Reference to the player's rigidbody.
@@ -16,13 +24,36 @@ public class PlayerMovement : MonoBehaviour {
 
         // Set up references.
         playerRigidbody = GetComponent <Rigidbody> ();
+
+        stamina = maxStamina;
     }
 
+    void checkSprint() {
+        Debug.Log(canSprint);
+        Debug.Log(stamina);
+
+
+        if (stamina > 0) {
+            canSprint = true;
+            inRecovery = false;
+        } else if (!inRecovery){
+            stamina = regenRate;
+            canSprint = false;
+            inRecovery = true;
+        }
+
+
+        if (stamina < 0) {
+            canSprint = false;
+        }
+
+    }
 
     void FixedUpdate (){
         // Store the input axes.
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
+
 
         // Move the player around the scene.
         Move (h, v);
@@ -31,14 +62,23 @@ public class PlayerMovement : MonoBehaviour {
         Turning ();
 
     }
-
+    
 
     void Move (float h, float v){
         // Set the movement vector based on the axis input.
         movement.Set (h, 0f, v);
-            
+
+        checkSprint();
         // Normalise the movement vector and make it proportional to the speed per second.
-        movement = movement.normalized * speed * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftShift) && canSprint) {
+            movement = movement.normalized * speed * Time.deltaTime * sprintSpeed;
+            stamina = stamina - 1;
+        } else {
+            Debug.Log("I am in else;");
+            movement = movement.normalized * speed * Time.deltaTime;
+            if (stamina < maxStamina) stamina = stamina + 1;
+        }
+
 
         // Move the player to it's current position plus the movement.
         playerRigidbody.MovePosition (transform.position + movement);
