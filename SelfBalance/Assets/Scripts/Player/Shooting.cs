@@ -2,7 +2,7 @@
 
 namespace CompleteProject
 {
-    public class PlayerShooting : MonoBehaviour
+    public class Shooting : MonoBehaviour
     {
         public int damagePerShot = 20;                  // The damage inflicted by each bullet.
         public float timeBetweenBullets = 0.15f;        // The time between each shot.
@@ -17,15 +17,21 @@ namespace CompleteProject
         LineRenderer gunLine;                           // Reference to the line renderer.
         AudioSource gunAudio;                           // Reference to the audio source.
         Light gunLight;                                 // Reference to the light component.
-		public Light faceLight;								// Duh
+		public Light faceLight;							
         float effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
+
+        public GameObject ammo;
+		public GameObject gunpoint;
+
+		Vector3 gunPosition;
 
 
         void Awake ()
         {
-            // Create a layer mask for the Shootable layer.
+            
+			// Create a layer mask for the Shootable layer.
             shootableMask = LayerMask.GetMask ("Shootable");
-
+			gunPosition = gunpoint.transform.position;
         }
 
 
@@ -33,6 +39,12 @@ namespace CompleteProject
         {
             // Add the time since Update was last called to the timer.
             timer += Time.deltaTime;
+			gunPosition = gunpoint.transform.position;
+
+			if(Input.GetKey(KeyCode.Mouse0) && timer >= timeBetweenBullets && Time.timeScale != 0)
+			{
+				Shoot ();
+			}
 
             // If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
             if(timer >= timeBetweenBullets * effectsDisplayTime)
@@ -50,12 +62,16 @@ namespace CompleteProject
             timer = 0f;
 
             // Enable the line renderer and set it's first position to be the end of the gun.
-            gunLine.enabled = true;
+/*            gunLine.enabled = true;
             gunLine.SetPosition (0, transform.position);
 
             // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
             shootRay.origin = transform.position;
-            shootRay.direction = transform.forward;
+            shootRay.direction = transform.forward;*/
+
+
+
+			Instantiate(ammo, gunPosition, Quaternion.Euler(transform.rotation.eulerAngles)) ;
 
             /*
             // Perform the raycast against gameobjects on the shootable layer and if it hits something...
@@ -82,3 +98,4 @@ namespace CompleteProject
         }
     }
 }
+

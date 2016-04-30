@@ -29,8 +29,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void checkSprint() {
-        Debug.Log(canSprint);
-        Debug.Log(stamina);
 
 
         if (stamina > 0) {
@@ -74,7 +72,6 @@ public class PlayerMovement : MonoBehaviour {
             movement = movement.normalized * speed * Time.deltaTime * sprintSpeed;
             stamina = stamina - 1;
         } else {
-            Debug.Log("I am in else;");
             movement = movement.normalized * speed * Time.deltaTime;
             if (stamina < maxStamina) stamina = stamina + 1;
         }
