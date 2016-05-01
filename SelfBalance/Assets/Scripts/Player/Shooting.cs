@@ -4,12 +4,11 @@ namespace CompleteProject
 {
     public class Shooting : MonoBehaviour
     {
-        public int damagePerShot = 20;                  // The damage inflicted by each bullet.
-        public float timeBetweenBullets = 0.15f;        // The time between each shot.
-        public float range = 100f;                      // The distance the gun can fire.
 
 
-        float timer;                                    // A timer to determine when to fire.
+
+        float timer;   
+		// A timer to determine when to fire.
         Ray shootRay;                                   // A ray from the gun end forwards.
         RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
         int shootableMask;                              // A layer mask so the raycast only hits things on the shootable layer.
@@ -22,8 +21,14 @@ namespace CompleteProject
 
         public GameObject ammo;
 		public GameObject gunpoint;
-
 		Vector3 gunPosition;
+
+
+		// These have to be changed for each class.
+		float bulletSpeed = 50f;
+		public int damagePerShot = 20;                   // The damage inflicted by each bullet.
+		public float timeBetweenBullets = 2f;       	 // The time between each shot.
+		public float range = 100f;                       // The distance the gun can fire.
 
 
         void Awake ()
@@ -32,6 +37,7 @@ namespace CompleteProject
 			// Create a layer mask for the Shootable layer.
             shootableMask = LayerMask.GetMask ("Shootable");
 			gunPosition = gunpoint.transform.position;
+			updateWeapon();
         }
 
 
@@ -54,47 +60,21 @@ namespace CompleteProject
             }
         }
 
-
+		void updateWeapon(){
+			
+		}
 
         void Shoot ()
         {
             // Reset the timer.
             timer = 0f;
 
-            // Enable the line renderer and set it's first position to be the end of the gun.
-/*            gunLine.enabled = true;
-            gunLine.SetPosition (0, transform.position);
-
-            // Set the shootRay so that it starts at the end of the gun and points forward from the barrel.
-            shootRay.origin = transform.position;
-            shootRay.direction = transform.forward;*/
 
 
+			GameObject bullet = Instantiate(ammo, gunPosition, Quaternion.Euler(transform.rotation.eulerAngles)) as GameObject ;
+			bullet.GetComponent<Rigidbody>().AddRelativeForce(Vector3.forward * bulletSpeed * Random.Range(.8f,1.2f), ForceMode.Impulse);
 
-			Instantiate(ammo, gunPosition, Quaternion.Euler(transform.rotation.eulerAngles)) ;
-
-            /*
-            // Perform the raycast against gameobjects on the shootable layer and if it hits something...
-            if(Physics.Raycast (shootRay, out shootHit, range, shootableMask))
-            {
-                // If the EnemyHealth component exist...
-                if(enemyHealth != null)
-                {
-                    // ... the enemy should take damage.
-                    enemyHealth.TakeDamage (damagePerShot, shootHit.point);
-                }
-
-                // Set the second position of the line renderer to the point the raycast hit.
-                gunLine.SetPosition (1, shootHit.point);
-            }
-            // If the raycast didn't hit anything on the shootable layer...
-            else
-            {
-                // ... set the second position of the line renderer to the fullest extent of the gun's range.
-                gunLine.SetPosition (1, shootRay.origin + shootRay.direction * range);
-            }
-            */
-            
+			   
         }
     }
 }
