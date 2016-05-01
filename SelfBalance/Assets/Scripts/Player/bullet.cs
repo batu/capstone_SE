@@ -4,10 +4,11 @@ using System.Collections;
 public class bullet : MonoBehaviour {
 
 	float startTime;
+	public float lifeTime = 3f;
 
 	public GameObject explosion;
 
-	public float lifeTime = 3f;
+
 
 	float bulletSpeed;
 
