@@ -3,6 +3,11 @@ using System.Collections;
 
 public class bullet : MonoBehaviour {
 
+
+	public float damage = 10f;
+	public float scale = 1f;
+
+
 	float startTime;
 	public float lifeTime = 3f;
 
@@ -15,6 +20,7 @@ public class bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		transform.localScale = new Vector3(scale,scale,scale);
 		startTime = Time.time;
 	}
 	

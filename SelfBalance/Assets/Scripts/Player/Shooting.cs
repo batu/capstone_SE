@@ -9,15 +9,8 @@ namespace CompleteProject
 
         float timer;   
 		// A timer to determine when to fire.
-        Ray shootRay;                                   // A ray from the gun end forwards.
-        RaycastHit shootHit;                            // A raycast hit to get information about what was hit.
+ 
         int shootableMask;                              // A layer mask so the raycast only hits things on the shootable layer.
-        ParticleSystem gunParticles;                    // Reference to the particle system.
-        LineRenderer gunLine;                           // Reference to the line renderer.
-        AudioSource gunAudio;                           // Reference to the audio source.
-        Light gunLight;                                 // Reference to the light component.
-		public Light faceLight;							
-        float effectsDisplayTime = 0.2f;                // The proportion of the timeBetweenBullets that the effects will display for.
 
         public GameObject ammo;
 		public GameObject gunpoint;
@@ -37,7 +30,6 @@ namespace CompleteProject
 			// Create a layer mask for the Shootable layer.
             shootableMask = LayerMask.GetMask ("Shootable");
 			gunPosition = gunpoint.transform.position;
-			updateWeapon();
         }
 
 
@@ -51,18 +43,9 @@ namespace CompleteProject
 			{
 				Shoot ();
 			}
-
-            // If the timer has exceeded the proportion of timeBetweenBullets that the effects should be displayed for...
-            if(timer >= timeBetweenBullets * effectsDisplayTime)
-            {
-                // ... disable the effects.
-                //DisableEffects (); Not implemented Yet
-            }
+				
         }
-
-		void updateWeapon(){
 			
-		}
 
         void Shoot ()
         {
