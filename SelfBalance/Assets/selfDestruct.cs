@@ -16,6 +16,7 @@ public class selfDestruct : MonoBehaviour {
 	void Update () {
 		if(Time.time - startTime > lifeTime){
 			Destroy(gameObject);
+
 		}
 	}
 }

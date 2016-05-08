@@ -3,15 +3,15 @@ using System.Collections;
 
 public class bullet : MonoBehaviour {
 
-
-	public float damage = 10f;
-	public float scale = 1f;
-
-
 	float startTime;
 	public float lifeTime = 3f;
 
 	public GameObject explosion;
+
+	public float damage;
+	public float ammoScale;
+
+	Shooting shootingScript;
 
 
 
@@ -20,7 +20,7 @@ public class bullet : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		transform.localScale = new Vector3(scale,scale,scale);
+		transform.localScale = new Vector3(ammoScale,ammoScale,ammoScale);
 		startTime = Time.time;
 	}
 	
@@ -32,6 +32,10 @@ public class bullet : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision col){
+
+		if(col.collider.name == transform.name){
+			return;
+		}
 
 		Destroy(gameObject);
 		Instantiate(explosion, new Vector3(gameObject.transform.position.x,

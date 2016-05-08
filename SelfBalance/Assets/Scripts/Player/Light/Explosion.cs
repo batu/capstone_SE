@@ -6,9 +6,12 @@ public class Explosion : MonoBehaviour {
 	public float lifeTime; 
 
 	public GameObject explosion;
+	public GameObject explosion2;
 	public GameObject[] damageable;
-	public float explosionRange = 5f;
+
+	public float explosionRange = 10f;
 	public float explosionDamage = 20f;
+	public float explosionForce = 300f;
 
 	PlayerHealth playerHealth;
 
@@ -20,13 +23,18 @@ public class Explosion : MonoBehaviour {
 	}
 
 
+
 	void EXPLODE(){
 		foreach (GameObject player in damageable){
 			if(Vector3.Distance(player.transform.position, transform.position) < explosionRange){
-				Debug.Log("HIT!");
-				//playerHealth = player.GetComponent<PlayerHealth>();
-				//playerHealth.current_health = playerHealth.current_health - explosionDamage;
-			
+				playerHealth = player.GetComponent<PlayerHealth>();
+				playerHealth.current_health = playerHealth.current_health - explosionDamage;
+			}
+			Rigidbody rb = player.GetComponent<Rigidbody>();
+
+			if (rb != null){
+				Debug.Log("BOOM!");
+				rb.AddExplosionForce(explosionForce, transform.position, explosionRange, 3.0F);
 			}
 		}
 		
@@ -36,6 +44,9 @@ public class Explosion : MonoBehaviour {
 		if(Time.time - startTime > lifeTime){
 			EXPLODE();
 			Instantiate(explosion, new Vector3(gameObject.transform.position.x,
+				gameObject.transform.position.y,
+				gameObject.transform.position.z), Quaternion.identity);
+			Instantiate(explosion2, new Vector3(gameObject.transform.position.x,
 				gameObject.transform.position.y,
 				gameObject.transform.position.z), Quaternion.identity);
 			Destroy(gameObject);
