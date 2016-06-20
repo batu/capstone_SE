@@ -9,9 +9,9 @@ public class Explosion : MonoBehaviour {
 	public GameObject explosion2;
 	public GameObject[] damageable;
 
-	public float explosionRange = 10f;
-	public float explosionDamage = 20f;
-	public float explosionForce = 300f;
+	float explosionRange = 20;
+	float explosionDamage = 30;
+	float explosionForce = 3f;
 
 	PlayerHealth playerHealth;
 
@@ -26,14 +26,19 @@ public class Explosion : MonoBehaviour {
 
 	void EXPLODE(){
 		foreach (GameObject player in damageable){
-			if(Vector3.Distance(player.transform.position, transform.position) < explosionRange){
+
+            float distance = Vector3.Distance(player.transform.position, transform.position);
+            Debug.Log("Printing distance and player name: " + distance + "/" + explosionRange + " " + player.name);
+            if (distance  < explosionRange){
+                Debug.Log("I am in if.");
 				playerHealth = player.GetComponent<PlayerHealth>();
+                Debug.Log(player.name + " health is: " + playerHealth.current_health);
 				playerHealth.current_health = playerHealth.current_health - explosionDamage;
-			}
+                Debug.Log(player.name + " health went down to: " + playerHealth.current_health);
+            }
 			Rigidbody rb = player.GetComponent<Rigidbody>();
 
 			if (rb != null){
-				Debug.Log("BOOM!");
 				rb.AddExplosionForce(explosionForce, transform.position, explosionRange, 3.0F);
 			}
 		}
