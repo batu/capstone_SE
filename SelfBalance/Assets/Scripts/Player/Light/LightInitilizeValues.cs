@@ -5,9 +5,14 @@ public class LightInitilizeValues : MonoBehaviour {
 
 	PlayerMovement movementScript;
 	PlayerHealth healthScript;
-	Shooting shootingScript;
+    Shooting shootingScript;
+    //mShooting shootingScript;
 	bullet bulletScript;
 	SpecialAttack speacialAttackScript;
+
+    //Active Player
+    bool isPlayer;
+
 
 	//Shooting variables;
 	float lBulletSpeed = 100f;
@@ -27,7 +32,8 @@ public class LightInitilizeValues : MonoBehaviour {
 	void Awake() {
 		movementScript = GetComponent<PlayerMovement>();
 		healthScript =  GetComponent<PlayerHealth>();
-		shootingScript =  GetComponent<Shooting>();
+        shootingScript =  GetComponent<Shooting>();
+        //shootingScript =  GetComponent<mShooting>();
 		speacialAttackScript =  GetComponent<SpecialAttack>();
 
 

@@ -34,8 +34,7 @@ public class SpecialAttack : MonoBehaviour {
 		spawnPosition = spawnPoint.transform.position;
 
 		timer += Time.deltaTime;
-		if(Input.GetKey(KeyCode.Mouse1) && timer >= timeBetweenSpecials && Time.timeScale != 0)
-		{
+		if(Input.GetKey(KeyCode.Mouse1) && timer >= timeBetweenSpecials && Time.timeScale != 0){
 			SpawnSpecial();
 		}
 	}

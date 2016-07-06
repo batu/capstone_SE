@@ -9,10 +9,15 @@ public class HeavyInitilizeValues : MonoBehaviour {
 	bullet bulletScript;
 	SpecialAttack speacialAttackScript;
 
-	//Shooting variables;
-	float hBulletSpeed = 75f;
+
+    //Active Player
+    bool isPlayer;
+
+
+    //Shooting variables;
+    float hBulletSpeed = 85f;
 	float hDamagePerShot = 20;
-	float hTimeBetweenBullets = 1f;
+	float hTimeBetweenBullets = 0.75f;
 	float hAmmoSize = 2f;
 
 
